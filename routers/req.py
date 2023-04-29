@@ -8,7 +8,7 @@ from db.utils.profile import create_profile, get_profile_by_id, delete_profile, 
     get_profile_by_user_id
 from db.utils.profile import get_matching_profiles
 from db.utils.req import create_request_from_profile, get_req_from_profile, answer_on_request_from_profile, \
-    get_answers_on_req_from_user_profile, create_request_from_user, get_requests_from_user
+    get_answers_on_req_from_user_profile, create_request_from_user, get_requests_from_user, delete_request_from_user_by_id
 
 request_router = APIRouter()
 
@@ -47,3 +47,9 @@ async def request_from_user_to_profile_path(profile_id: int, current_user=Depend
 async def get_requests_from_user_to_profile_path(current_user=Depends(get_current_user),
                                                  session: AsyncSession = Depends(get_session)):
     return await get_requests_from_user(current_user['id'], session)
+
+
+@request_router.delete('/delete-requests-from-user-to-profile')
+async def delete_requests_from_user_to_profile_path(req_id: int,
+                                                 session: AsyncSession = Depends(get_session)):
+    return await delete_request_from_user_by_id(req_id, session)

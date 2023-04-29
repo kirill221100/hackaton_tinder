@@ -13,7 +13,7 @@ from typing import List
 
 async def create_profile(profile_data: ProfileValidation, user_id: int, session: AsyncSession):
     user = (await session.execute(select(User).filter(User.id == user_id))).scalar_one()
-    profile = Profile(user=user, text=profile_data.text)
+    profile = Profile(user=user, name=profile_data.name, text=profile_data.text)
     session.add(profile)
     await session.flush()
     await session.refresh(profile)

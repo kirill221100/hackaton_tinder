@@ -3,6 +3,7 @@ from typing import List, Optional
 
 
 class ProfileValidation(BaseModel):
+    name: str
     text: str
     topics: List
 

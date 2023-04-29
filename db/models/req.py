@@ -18,6 +18,8 @@ class ProfileReqBack(Base):
     profile_id = Column(Integer, ForeignKey('profile.id'))
     profile = relationship('Profile', back_populates='profile_reqs_back')
     user_id = Column(Integer)
+    user_contacts = Column(String)
+    user_about = Column(String)
 
 
 class UserReq(Base):
