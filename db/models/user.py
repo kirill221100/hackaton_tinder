@@ -2,6 +2,7 @@ from sqlalchemy import Integer, String, Column, Boolean, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from db.db_setup import Base
 from db.models.associations import profiles_topics_association, users_topics_association
+from db.models.req import ProfileReq
 
 
 class User(Base):
@@ -14,3 +15,4 @@ class User(Base):
     about = Column(Text)
     profile = relationship('Profile', back_populates='user', uselist=False)
     topics = relationship('Topic', secondary=users_topics_association, back_populates='users')
+    profile_reqs = relationship("ProfileReq", back_populates='user')

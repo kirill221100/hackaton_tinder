@@ -38,6 +38,11 @@ async def delete_profile_path(profile_id: int, user_data=Depends(get_current_use
     return await delete_profile(profile_id, user_data, session)
 
 
-@profile_router.get('/get-profile')
-async def get_profile_path(user=Depends(get_current_user), session: AsyncSession = Depends(get_session)):
+@profile_router.get('/get-profile-of-current-user')
+async def get_profile_of_current_user_path(user=Depends(get_current_user), session: AsyncSession = Depends(get_session)):
     return await get_profile_by_user_id(user['id'], session)
+
+
+# @profile_router.get('/req_to_user/{user_id}')
+# async def req_to_user_path(user_id: int, current_user=Depends(get_current_user), session: AsyncSession = Depends(get_session)):
+#     return await req_to_user(user_id, current_user['id'], session)

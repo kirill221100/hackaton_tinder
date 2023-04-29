@@ -7,7 +7,6 @@ from sqlalchemy import select, func, join, desc
 from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
 from validation.user import EditTopics
-from db.utils.profile import get_profile_by_user_id
 from db.utils.topic import get_topic, create_topic_no_commit, get_topic_with_users
 
 
@@ -48,6 +47,10 @@ async def get_user_by_id(user_id: int, session: AsyncSession):
     return (await session.execute(select(User).filter(User.id == user_id).options(selectinload(User.topics)))).scalar_one_or_none()
 
 
+async def get_user_by_id_with_prof_req(user_id: int, session: AsyncSession):
+    return (await session.execute(select(User).filter(User.id == user_id).options(selectinload(User.profile_reqs)))).scalar_one_or_none()
+
+
 async def edit_contacts(user_id: int, contacts: str, session: AsyncSession):
     user = await get_user_by_id(user_id, session)
     user.contacts = contacts
@@ -61,3 +64,6 @@ async def edit_about(user_id: int, about: str, session: AsyncSession):
     await session.commit()
     return 'ok'
 
+
+async def get_requests_from_profile(user_id: int, session: AsyncSession):
+    return (await session.execute(select(User).filter(User.id == user_id).options(selectinload(User.profile_reqs)))).scalar_one_or_none().profile_reqs

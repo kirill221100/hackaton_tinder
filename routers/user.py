@@ -14,6 +14,12 @@ async def get_user_by_id_path(user_id: int,
     return await get_user_by_id(user_id, session)
 
 
+@user_router.get('/request-to-user-by-id/{user_id}')
+async def request_to_user_by_id_path(user_id: int, current_user=Depends(get_current_user),
+                                     session: AsyncSession = Depends(get_session)):
+    return await get_user_by_id(user_id, session)
+
+
 @user_router.get('/get-current-user')
 async def get_current_user_path(user_data=Depends(get_current_user), session: AsyncSession = Depends(get_session)):
     return await get_user_by_id(user_data['id'], session)

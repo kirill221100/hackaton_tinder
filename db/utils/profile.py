@@ -34,6 +34,16 @@ async def get_profile_by_user_id(user_id: int, session: AsyncSession):
     return (await session.execute(select(Profile).filter(Profile.user_id == user_id))).scalar_one_or_none()
 
 
+async def get_profile_by_id_with_quiz(profile_id: int, session: AsyncSession):
+    return (await session.execute(select(Profile).filter(Profile.id == profile_id)
+                                  .options(selectinload(Profile.quiz)))).scalar_one_or_none()
+
+
+async def get_profile_by_user_id_with_quiz(user_id: int, session: AsyncSession):
+    return (await session.execute(select(Profile).filter(Profile.user_id == user_id)
+                                  .options(selectinload(Profile.quiz)))).scalar_one_or_none()
+
+
 async def delete_profile(profile_id: int, user_data: dict, session: AsyncSession):
     profile = (await session.execute(select(Profile).filter(Profile.id == profile_id))).scalar_one_or_none()
     if user_data['id'] == profile.user_id:
@@ -75,3 +85,4 @@ async def edit_profile_topics(profile: Profile, topics_data: List[str], session:
         if topic.name not in topics_data:
             profile.topics.remove(topic)
     return 'ok'
+
