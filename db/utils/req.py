@@ -62,6 +62,7 @@ async def create_request_from_user(profile_id: int, current_user_id: int, sessio
 async def get_requests_from_user(current_user_id: int, session: AsyncSession):
     return (await get_profile_by_user_id_with_user_req(current_user_id, session)).user_reqs
 
+
 async def delete_request_from_user_by_id(req_id: int, session: AsyncSession):
     await session.execute(delete(UserReq).filter(UserReq.id == req_id))
     await session.commit()
