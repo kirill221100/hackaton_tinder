@@ -25,5 +25,5 @@ app.include_router(user_router, prefix='/user', tags=['user'])
 async def on_startup():
     await init_db()
 
-if __name__ == '__main__':
-    run('main:app', reload=True)
+# if __name__ == '__main__':
+#     run('main:app', reload=True)
