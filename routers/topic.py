@@ -8,7 +8,7 @@ topic_router = APIRouter()
 
 
 @topic_router.post('/create-topic/{topic}')
-async def create_topic_path(topic: str, user=Depends(get_current_user), session: AsyncSession = Depends(get_session)):
+async def create_topic_path(topic: str, session: AsyncSession = Depends(get_session)):
     # if user['is_admin']:
     #     return await create_topic(topic, session)
     # raise HTTPException(status_code=403)
