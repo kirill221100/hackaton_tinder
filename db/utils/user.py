@@ -42,3 +42,22 @@ async def get_matching_users(user_id: int, session: AsyncSession):
 
 async def get_user_topics(user_id: int, session: AsyncSession):
     return (await session.execute(select(User).filter(User.id == user_id).options(selectinload(User.topics)))).scalar_one_or_none().topics
+
+
+async def get_user_by_id(user_id: int, session: AsyncSession):
+    return (await session.execute(select(User).filter(User.id == user_id).options(selectinload(User.topics)))).scalar_one_or_none()
+
+
+async def edit_contacts(user_id: int, contacts: str, session: AsyncSession):
+    user = await get_user_by_id(user_id, session)
+    user.contacts = contacts
+    await session.commit()
+    return 'ok'
+
+
+async def edit_about(user_id: int, about: str, session: AsyncSession):
+    user = await get_user_by_id(user_id, session)
+    user.about = about
+    await session.commit()
+    return 'ok'
+
