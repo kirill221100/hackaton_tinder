@@ -20,10 +20,11 @@ class ProfileReqBack(Base):
     user_id = Column(Integer)
 
 
-# class UserReq(Base):
-#     __tablename__ = 'user_req'
-#     id = Column(Integer, primary_key=True)
-#     user_id = Column(Integer, ForeignKey('user.id'))
-#     user = relationship('User', back_populates='user_reqs')
-#     profile_id = Column(Integer, ForeignKey('profile.id'))
-#     profile = relationship('Profile', back_populates='user_reqs')
+class UserReq(Base):
+    __tablename__ = 'user_req'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer)
+    user_contacts = Column(String)
+    user_about = Column(String)
+    profile_id = Column(Integer, ForeignKey('profile.id'))
+    profile = relationship('Profile', back_populates='user_reqs')

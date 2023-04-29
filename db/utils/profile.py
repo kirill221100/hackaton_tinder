@@ -34,6 +34,10 @@ async def get_profile_by_user_id(user_id: int, session: AsyncSession):
     return (await session.execute(select(Profile).filter(Profile.user_id == user_id))).scalar_one_or_none()
 
 
+async def get_profile_by_user_id_with_user_req(user_id: int, session: AsyncSession):
+    return (await session.execute(select(Profile).filter(Profile.user_id == user_id).options(selectinload(Profile.user_reqs)))).scalar_one_or_none()
+
+
 async def get_profile_by_id_with_quiz(profile_id: int, session: AsyncSession):
     return (await session.execute(select(Profile).filter(Profile.id == profile_id)
                                   .options(selectinload(Profile.quiz)))).scalar_one_or_none()
