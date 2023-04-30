@@ -3,11 +3,10 @@ from db.models.topic import Topic
 from db.models.profile import Profile
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
-from sqlalchemy import select, func, join, desc
-from fastapi import HTTPException
+from sqlalchemy import select, func,  desc
 from fastapi.encoders import jsonable_encoder
 from validation.user import EditTopics
-from db.utils.topic import get_topic, create_topic_no_commit, get_topic_with_users
+from db.utils.topic import get_topic, create_topic_no_commit
 
 
 async def edit_topics(topics_data: EditTopics, user_id: int, session: AsyncSession):
@@ -28,7 +27,6 @@ async def edit_topics(topics_data: EditTopics, user_id: int, session: AsyncSessi
 
 
 async def get_matching_users(user_id: int, session: AsyncSession):
-    #profile = await get_profile_by_user_id(user_id, session)
     users = (await session.execute(select(User, func.count(Profile.topics).label('qwerty'))
                                    .join(User, Topic.users)
                                    .options(selectinload(User.topics))
@@ -40,15 +38,18 @@ async def get_matching_users(user_id: int, session: AsyncSession):
 
 
 async def get_user_topics(user_id: int, session: AsyncSession):
-    return (await session.execute(select(User).filter(User.id == user_id).options(selectinload(User.topics)))).scalar_one_or_none().topics
+    return (await session.execute(select(User).filter(User.id == user_id)
+                                  .options(selectinload(User.topics)))).scalar_one_or_none().topics
 
 
 async def get_user_by_id(user_id: int, session: AsyncSession):
-    return (await session.execute(select(User).filter(User.id == user_id).options(selectinload(User.topics)))).scalar_one_or_none()
+    return (await session.execute(select(User).filter(User.id == user_id).options(selectinload(User.topics))))\
+        .scalar_one_or_none()
 
 
 async def get_user_by_id_with_prof_req(user_id: int, session: AsyncSession):
-    return (await session.execute(select(User).filter(User.id == user_id).options(selectinload(User.profile_reqs)))).scalar_one_or_none()
+    return (await session.execute(select(User).filter(User.id == user_id).options(selectinload(User.profile_reqs))))\
+        .scalar_one_or_none()
 
 
 async def edit_contacts(user_id: int, contacts: str, session: AsyncSession):
@@ -66,4 +67,5 @@ async def edit_about(user_id: int, about: str, session: AsyncSession):
 
 
 async def get_requests_from_profile(user_id: int, session: AsyncSession):
-    return (await session.execute(select(User).filter(User.id == user_id).options(selectinload(User.profile_reqs)))).scalar_one_or_none().profile_reqs
+    return (await session.execute(select(User).filter(User.id == user_id).options(selectinload(User.profile_reqs))))\
+        .scalar_one_or_none().profile_reqs

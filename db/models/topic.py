@@ -10,7 +10,3 @@ class Topic(Base):
     name = Column(String, unique=True)
     profiles = relationship('Profile', secondary=profiles_topics_association, back_populates='topics')
     users = relationship('User', secondary=users_topics_association, back_populates='topics')
-
-    def __str__(self):
-        return self.name
-

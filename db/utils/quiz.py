@@ -1,13 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
-from sqlalchemy import select, func, desc
-from fastapi import HTTPException
-import json
-
 from db.models.quiz import Quiz
 from db.utils.profile import get_profile_by_user_id, get_profile_by_user_id_with_quiz, get_profile_by_id_with_quiz
 from validation.quiz import QuizValidation
-from typing import List
 
 
 async def create_quiz(quiz_data: QuizValidation, user_id: int, session: AsyncSession):

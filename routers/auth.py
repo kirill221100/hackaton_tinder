@@ -17,4 +17,3 @@ async def registration_path(user: RegistrationUser, session: AsyncSession = Depe
 @auth_router.post('/login')
 async def login_path(user: OAuth2PasswordRequestForm = Depends(), session: AsyncSession = Depends(get_session)):
     return {'access_token': await login_user(user, session), 'token_type': 'bearer'}
-

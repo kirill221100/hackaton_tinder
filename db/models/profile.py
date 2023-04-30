@@ -2,8 +2,6 @@ from sqlalchemy import Integer, String, Column, Text, ForeignKey
 from sqlalchemy.orm import relationship
 from db.db_setup import Base
 from db.models.associations import profiles_topics_association
-from db.models.topic import Topic
-#from db.models.user import User
 
 
 class Profile(Base):
@@ -18,4 +16,3 @@ class Profile(Base):
     topics = relationship('Topic', secondary=profiles_topics_association, back_populates='profiles', lazy='selectin')
     profile_reqs_back = relationship("ProfileReqBack", back_populates='profile')
     user_reqs = relationship("UserReq", back_populates='profile')
-

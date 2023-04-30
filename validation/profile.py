@@ -11,4 +11,3 @@ class ProfileValidation(BaseModel):
 class ProfileEdit(BaseModel):
     text: Optional[str]
     topics: Optional[List[str]]
-

@@ -3,8 +3,7 @@ from validation.quiz import QuizValidation
 from sqlalchemy.ext.asyncio import AsyncSession
 from db.db_setup import get_session
 from security.oauth import get_current_user
-from db.utils.user import edit_topics, get_matching_users, get_user_topics, get_user_by_id, edit_contacts, edit_about
-from db.utils.quiz import create_quiz, get_quiz_by_profile_id, get_profile_by_user_id_with_quiz, get_quiz_by_user_id
+from db.utils.quiz import create_quiz, get_quiz_by_profile_id, get_quiz_by_user_id
 
 quiz_router = APIRouter()
 

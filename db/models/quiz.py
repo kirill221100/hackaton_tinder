@@ -1,7 +1,6 @@
-from sqlalchemy import Integer, String, Column, Boolean, ForeignKey, Text, JSON
+from sqlalchemy import Integer, Column, JSON
 from sqlalchemy.orm import relationship
 from db.db_setup import Base
-from db.models.associations import profiles_topics_association, users_topics_association
 
 
 class Quiz(Base):

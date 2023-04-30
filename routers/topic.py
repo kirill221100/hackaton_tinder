@@ -1,17 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from db.db_setup import get_session
 from db.utils.topic import create_topic, get_topic, get_topic_with_profiles, get_topic_with_users
-from security.oauth import get_current_user
 
 topic_router = APIRouter()
 
 
 @topic_router.post('/create-topic/{topic}')
 async def create_topic_path(topic: str, session: AsyncSession = Depends(get_session)):
-    # if user['is_admin']:
-    #     return await create_topic(topic, session)
-    # raise HTTPException(status_code=403)
     return await create_topic(topic, session)
 
 

@@ -24,7 +24,6 @@ async def create_topic_no_commit(topic: str, session: AsyncSession):
     return topic_db
 
 
-
 async def get_topic(topic: str, session: AsyncSession):
     return (await session.execute(select(Topic).filter(Topic.name == topic))).scalar_one_or_none()
 

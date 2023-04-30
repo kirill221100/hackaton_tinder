@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, Column, Table, ForeignKey
+from sqlalchemy import Column, Table, ForeignKey
 from db.db_setup import Base
 
 profiles_topics_association = Table('profiles_topics',

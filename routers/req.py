@@ -1,14 +1,10 @@
 from fastapi import APIRouter, Depends
-from validation.profile import ProfileValidation
-from validation.profile import ProfileEdit
 from sqlalchemy.ext.asyncio import AsyncSession
 from db.db_setup import get_session
 from security.oauth import get_current_user
-from db.utils.profile import create_profile, get_profile_by_id, delete_profile, edit_profile, get_matching_profiles, \
-    get_profile_by_user_id
-from db.utils.profile import get_matching_profiles
 from db.utils.req import create_request_from_profile, get_req_from_profile, answer_on_request_from_profile, \
-    get_answers_on_req_from_user_profile, create_request_from_user, get_requests_from_user, delete_request_from_user_by_id
+    get_answers_on_req_from_user_profile, create_request_from_user, get_requests_from_user, \
+    delete_request_from_user_by_id
 
 request_router = APIRouter()
 
@@ -51,5 +47,5 @@ async def get_requests_from_user_to_profile_path(current_user=Depends(get_curren
 
 @request_router.delete('/delete-requests-from-user-to-profile')
 async def delete_requests_from_user_to_profile_path(req_id: int,
-                                                 session: AsyncSession = Depends(get_session)):
+                                                    session: AsyncSession = Depends(get_session)):
     return await delete_request_from_user_by_id(req_id, session)

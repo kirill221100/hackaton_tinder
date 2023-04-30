@@ -1,8 +1,7 @@
-from sqlalchemy import Integer, String, Column, Boolean, ForeignKey, Text
+from sqlalchemy import Integer, String, Column, Boolean, Text
 from sqlalchemy.orm import relationship
 from db.db_setup import Base
-from db.models.associations import profiles_topics_association, users_topics_association
-from db.models.req import ProfileReq
+from db.models.associations import users_topics_association
 
 
 class User(Base):

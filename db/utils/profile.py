@@ -35,7 +35,8 @@ async def get_profile_by_user_id(user_id: int, session: AsyncSession):
 
 
 async def get_profile_by_user_id_with_user_req(user_id: int, session: AsyncSession):
-    return (await session.execute(select(Profile).filter(Profile.user_id == user_id).options(selectinload(Profile.user_reqs)))).scalar_one_or_none()
+    return (await session.execute(select(Profile).filter(Profile.user_id == user_id)
+                                  .options(selectinload(Profile.user_reqs)))).scalar_one_or_none()
 
 
 async def get_profile_by_id_with_quiz(profile_id: int, session: AsyncSession):
@@ -72,7 +73,7 @@ async def get_matching_profiles(user_id: int, session: AsyncSession):
                                       .join(Profile, Topic.profiles)
                                       .filter(Profile.topics.any(User.topics),
                                               User.id == user_id,
-                                              Profile.user_id != user_id).group_by(Profile).order_by(desc('qwerty')))) \
+                                              Profile.user_id != user_id).group_by(Profile).order_by(desc('qwerty'))))\
         .scalars().all()
     return profiles
 
@@ -89,4 +90,3 @@ async def edit_profile_topics(profile: Profile, topics_data: List[str], session:
         if topic.name not in topics_data:
             profile.topics.remove(topic)
     return 'ok'
-
