@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>уведомления профиля</h1>
+<ul id='messages'>
+<script>
+    var ws = new WebSocket("ws://localhost:8001/get-profile-notifications/{{profile_id}}");;
+
+
+
+            ws.onmessage = function(event) {
+<!--                if (JSON.parse(event.data).right_a){-->
+<!--                    right_a = JSON.parse(event.data).right_a-->
+<!--                    alert(JSON.stringify({'right_a': right_a}))-->
+<!--                }-->
+                var messages = document.getElementById('messages')
+                var button = document.createElement('button')
+                user_id = JSON.parse(event.data).user_id
+                profile_id = JSON.parse(event.data).profile_id
+                button.addEventListener('click', async _ => {
+                  try {
+                    const response = await fetch('http://localhost:8001/send-back-to-user/'+user_id+'/'+profile_id, {
+                      method: 'post',
+
+                    });
+                    console.log('Completed!', response);
+                  } catch(err) {
+                    console.error(`Error: ${err}`);
+                  }
+                });
+
+                messages.appendChild(button)
+            };</script>
+</body>
+</html>

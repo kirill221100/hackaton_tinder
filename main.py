@@ -6,7 +6,6 @@ from routers.profile import profile_router
 from routers.topic import topic_router
 from routers.user import user_router
 from routers.quiz import quiz_router
-from routers.req import request_router
 from uvicorn import run
 
 app = FastAPI(docs_url='/docs')
@@ -22,12 +21,11 @@ app.include_router(profile_router, prefix='/profile', tags=['profile'])
 app.include_router(topic_router, prefix='/topic', tags=['topic'])
 app.include_router(user_router, prefix='/user', tags=['user'])
 app.include_router(quiz_router, prefix='/quiz', tags=['quiz'])
-app.include_router(request_router, prefix='/request', tags=['request'])
 
 
 @app.on_event('startup')
 async def on_startup():
     await init_db()
-#
-# if __name__ == '__main__':
-#     run('main:app', reload=True)
+
+if __name__ == '__main__':
+    run('main:app', reload=True)

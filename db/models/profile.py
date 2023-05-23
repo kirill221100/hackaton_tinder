@@ -14,5 +14,5 @@ class Profile(Base):
     quiz = relationship("Quiz", back_populates='profile', uselist=False)
     text = Column(Text)
     topics = relationship('Topic', secondary=profiles_topics_association, back_populates='profiles', lazy='selectin')
-    profile_reqs_back = relationship("ProfileReqBack", back_populates='profile')
-    user_reqs = relationship("UserReq", back_populates='profile')
+    # profile_reqs_back = relationship("ProfileReqBack", back_populates='profile')
+    # user_reqs = relationship("UserReq", back_populates='profile')

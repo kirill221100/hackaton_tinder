@@ -14,4 +14,3 @@ class User(Base):
     about = Column(Text)
     profile = relationship('Profile', back_populates='user', uselist=False)
     topics = relationship('Topic', secondary=users_topics_association, back_populates='users')
-    profile_reqs = relationship("ProfileReq", back_populates='user')
