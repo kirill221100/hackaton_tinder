@@ -7,6 +7,7 @@ from sqlalchemy import select, func,  desc
 from fastapi.encoders import jsonable_encoder
 from validation.user import EditTopics
 from db.utils.topic import get_topic, create_topic_no_commit
+from datetime import datetime
 
 
 async def edit_topics(topics_data: EditTopics, user_id: int, session: AsyncSession):
@@ -55,6 +56,13 @@ async def get_user_by_id_with_prof_req(user_id: int, session: AsyncSession):
 async def edit_contacts(user_id: int, contacts: str, session: AsyncSession):
     user = await get_user_by_id(user_id, session)
     user.contacts = contacts
+    await session.commit()
+    return 'ok'
+
+
+async def update_last_time_read(user_id: int, session: AsyncSession):
+    user = await get_user_by_id(user_id, session)
+    user.last_time_read = datetime.now()
     await session.commit()
     return 'ok'
 

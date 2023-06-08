@@ -5,7 +5,8 @@ from validation.profile import ProfileEdit
 from sqlalchemy.ext.asyncio import AsyncSession
 from db.db_setup import get_session
 from security.oauth import get_current_user
-from db.utils.profile import create_profile, get_profile_by_id, delete_profile, edit_profile,  get_profile_by_user_id
+from db.utils.profile import create_profile, get_profile_by_id, delete_profile, edit_profile, get_profile_by_user_id, \
+    update_last_time_read
 from db.utils.profile import get_matching_profiles
 from mq.client import RequestClient
 
@@ -28,6 +29,12 @@ async def get_profile_by_id_path(profile_id: int, session: AsyncSession = Depend
 async def edit_profile_path(edit_data: ProfileEdit, user=Depends(get_current_user),
                             session: AsyncSession = Depends(get_session)):
     return await edit_profile(edit_data, user['id'], session)
+
+
+@profile_router.patch('/update-last-time-read')
+async def update_last_time_read_path(user_data=Depends(get_current_user),
+                                     session: AsyncSession = Depends(get_session)):
+    return await update_last_time_read(user_data['id'], session)
 
 
 @profile_router.get('/get-matching-profiles')
@@ -58,4 +65,3 @@ async def send_to_user(user_id: int, current_user=Depends(get_current_user)):
 @profile_router.get('/get-notifications/{profile_id}')
 async def get_notifications(req: Request, profile_id: int):
     return templates.TemplateResponse('profile_req.html', {'request': req, 'profile_id': profile_id})
-

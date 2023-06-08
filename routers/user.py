@@ -4,7 +4,8 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.ext.asyncio import AsyncSession
 from db.db_setup import get_session
 from security.oauth import get_current_user
-from db.utils.user import edit_topics, get_matching_users, get_user_topics, get_user_by_id, edit_contacts, edit_about
+from db.utils.user import edit_topics, get_matching_users, get_user_topics, get_user_by_id, edit_contacts, edit_about, \
+    update_last_time_read
 from mq.client import RequestClient
 
 user_router = APIRouter()
@@ -38,6 +39,12 @@ async def edit_contacts_path(contacts_data: str, user_data=Depends(get_current_u
 async def edit_about_path(about: str, user_data=Depends(get_current_user),
                           session: AsyncSession = Depends(get_session)):
     return await edit_about(user_data['id'], about, session)
+
+
+@user_router.patch('/update-last-time-read')
+async def update_last_time_read_path(user_data=Depends(get_current_user),
+                                     session: AsyncSession = Depends(get_session)):
+    return await update_last_time_read(user_data['id'], session)
 
 
 @user_router.get('/get-matching-users')

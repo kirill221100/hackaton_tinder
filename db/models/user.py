@@ -1,7 +1,8 @@
-from sqlalchemy import Integer, String, Column, Boolean, Text
+from sqlalchemy import Integer, String, Column, Boolean, Text, DateTime
 from sqlalchemy.orm import relationship
 from db.db_setup import Base
 from db.models.associations import users_topics_association
+from datetime import datetime
 
 
 class User(Base):
@@ -14,3 +15,4 @@ class User(Base):
     about = Column(Text)
     profile = relationship('Profile', back_populates='user', uselist=False)
     topics = relationship('Topic', secondary=users_topics_association, back_populates='users')
+    last_time_read = Column(DateTime, default=datetime.now)

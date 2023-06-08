@@ -9,6 +9,7 @@ from db.models.topic import Topic
 from db.utils.topic import get_topic, create_topic_no_commit
 from validation.profile import ProfileValidation, ProfileEdit
 from typing import List
+from datetime import datetime
 
 
 async def create_profile(profile_data: ProfileValidation, user_id: int, session: AsyncSession):
@@ -64,6 +65,13 @@ async def edit_profile(edit_data: ProfileEdit, user_id: int, session: AsyncSessi
         profile.text = edit_data.text
     if edit_data.topics:
         await edit_profile_topics(profile, edit_data.topics, session)
+    await session.commit()
+    return 'ok'
+
+
+async def update_last_time_read(user_id: int, session: AsyncSession):
+    profile = await get_profile_by_user_id(user_id, session)
+    profile.last_time_read = datetime.now()
     await session.commit()
     return 'ok'
 

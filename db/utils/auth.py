@@ -22,6 +22,9 @@ async def login_user(login_data: OAuth2PasswordRequestForm, session: AsyncSessio
     user = (await session.execute(select(User).filter(User.username == login_data.username).options(selectinload(User.profile)))).scalar_one_or_none()
     if user:
         if password.verify_pass(login_data.password, user.hashed_password):
-            return jwt.create_token({'id': user.id, 'profile_id': user.profile.id, 'username': user.username})
+            try:
+                return jwt.create_token({'id': user.id, 'profile_id': user.profile.id, 'username': user.username})
+            except AttributeError:
+                return jwt.create_token({'id': user.id, 'profile_id': None, 'username': user.username})
         raise HTTPException(status_code=401, detail="Wrong username or password")
     raise HTTPException(status_code=404, detail="User doesn't exist")
